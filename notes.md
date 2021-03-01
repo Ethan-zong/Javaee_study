@@ -176,6 +176,8 @@ scanner读取数字后再读取下一行直接跳过问题
     System.out.println("a.equals(c):" + a.equals(c));  //true
 
 ```
+==在比较引用类型时，比较的是地址。equals比较的是地址内容。  
+
 #### 递归
 ```java
 /**
@@ -303,5 +305,66 @@ static修饰的变量和方法放在方法区。
 import static java.lang.Math
 //可以通过static导入类的静态属性和静态方法
 ```
-### 继承，封装，多态
+## 继承，封装，多态
+
+### 继承
+子类可以继承父类的所有属性，方法。但是不一定可以直接访问。  
+如果一个类没有继承，默认继承OBject类。  
+单继承，一个子类只有一个直接父类。  
+#### 重载和重写
+重载(overloading) 是在一个类里面，方法名字相同，而参数不同。返回类型可以相同也可以不同。每个重载的方法（或者构造函数）都必须有一个独一无二的参数类型列表。最常用的地方就是构造器的重载。
+
+重写是子类对父类的允许访问的方法的实现过程进行重新编写, 返回值和形参都不能改变。
+```java
+package com.zong.inherit;
+
+public class Person { //extends Object
+    String name;
+    int height;
+    public void rest(){
+        System.out.println("rest in office");
+    }
+
+
+    public static void main(String[] args) {
+        Student s = new Student("张三",180,99);
+        Student s2 = new Student("李四");
+        s.rest();
+        s2.rest();
+        Person p =new Person();
+        p.rest();
+    }
+
+}
+class Student extends Person{
+    int score;
+    public void study(){
+        System.out.println("study"+this.name);
+    }
+    public void rest(){  //重写rest()方法
+        System.out.println("rest in classroom"+this.name);
+    }
+    Student(String name,int height,int score){
+        this.name = name;
+        this.height = height;
+        this.score = score;
+
+    }
+    Student(String name){  //重载构造方法
+        this.name = name;
+    }
+}
+
+```
+#### 访问修饰符
+|修饰符|同一类|同一包|子类|所有类|
+|---|---|---|---|---|
+|private|ok||||
+|default|ok|ok|||
+|protected|ok|ok|ok||
+|public|ok|ok|ok|ok|
+#### final
+1. 修饰变量，一旦赋予初值，不再能重新赋值。
+2. 修饰方法，不可被子类重写，但可以重载。
+3. 修饰类，不能被继承。
 
