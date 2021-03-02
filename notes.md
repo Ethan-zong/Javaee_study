@@ -361,13 +361,7 @@ class Student extends Person{
 }
 
 ```
-### 访问修饰符
-|修饰符|同一类|同一包|子类|所有类|
-|---|---|---|---|---|
-|private|ok||||
-|default|ok|ok|||
-|protected|ok|ok|ok||
-|public|ok|ok|ok|ok|
+
 
 
 ### 组合
@@ -391,4 +385,186 @@ class Taidi {
 }
 ```
 ## Object类
+
+### tostring
+```java
+package com.zong.test;
+
+public class User {
+    public static void main(String[] args) {
+        User user = new User();
+        System.out.println(user);
+        System.out.println(user.toString());  //两种方法一样
+    }
+
+}
+/*输出：
+com.zong.test.User@723279cf
+com.zong.test.User@723279cf
+*/
+```
+
+### equals()
+上面讲过引用类型的equals方法。属于string类里对equals的重写。  
+默认equals方法返回“Object@hashcode”,即类名@地址。
+
+
+### super
+直接父类对象的引用。通过super来访问父类中被子类覆盖的方法或属性。  
+```java
+package com.zong.test;
+
+public class TestSuper {
+    public static void main(String[] args) {
+        new ChildClass().f();
+    }
+
+}
+class FatherClass{
+    public int value;
+    public void f(){
+        value = 100;
+        System.out.println("FatherClass.value="+value);
+    }
+    public FatherClass(){
+        System.out.println("FatherClass build");
+    }
+}
+class ChildClass extends FatherClass{
+    public int value;
+    public void f(){
+        super.f();  //调用FatherClass.f()
+        value = 50;
+        System.out.println("ChildClass.value="+value);
+        System.out.println(value);  //50
+        System.out.println(super.value);  //100
+    }
+    public ChildClass(){
+        //super();   //子类的构造方法会在默认的情况下在第一行使用父类的无参构造方法。类似构造器重载的this();
+        System.out.println("ChildClass build");
+    }
+}
+/*
+FatherClass build
+ChildClass build
+FatherClass.value=100
+ChildClass.value=50
+50
+100
+*/
+```
+## 封装（encapsulation）
+### 访问修饰符
+|修饰符|同一类|同一包|子类|所有类|
+|---|---|---|---|---|
+|private|ok||||
+|default|ok|ok|||
+|protected|ok|ok|ok||
+|public|ok|ok|ok|ok|
+```java
+package com.zong.encapsulation.a;
+
+public class Father {
+    //父类
+    private int testPrivate = 100;
+    int testDefault = 200;
+    protected int testProtected = 300;
+    public int testPublic = 400;
+    protected static void run(){
+        System.out.println("run");
+    }
+}
+
+
+package com.zong.encapsulation.a;
+
+public class Child extends Father{
+    //Father的子类
+    public static void main(String[] args) {
+        Father father = new Father();
+        System.out.println(father.testDefault);  //同包子类可以访问到父类的非private属性和方法
+        System.out.println(father.testProtected);
+    }
+}
+
+
+package com.zong.encapsulation.a;
+
+public class Mother {
+    //Father的同包非子类
+    public static void main(String[] args) {
+        Father father = new Father();
+        System.out.println(father.testDefault);  //同包非子类也可以访问非private
+        System.out.println(father.testProtected);
+    }
+
+}
+
+
+package com.zong.encapsulation.b;
+
+import com.zong.encapsulation.a.Father;
+
+public class Child extends Father {
+    //Father非同包子类
+    void getFatherProtected(){
+        //子类通过super直接访问父类的protected成员，但是不能访问父类对象的protected成员.
+        System.out.println(super.testProtected);  //非同包子类可以通过super访问到Protected
+    }
+    public static void main(String[] args) {
+        Father father = new Father();
+        System.out.println(father.testPublic);  //非同包子类可以直接访问父类public
+        Child child = new Child();
+        child.getFatherProtected();
+        father.run();  //可以访问static修饰的成员
+    }
+}
+/*
+我的理解：
+private 限制范围为这个类。
+default 限制范围为这个包。
+protected 限制的是继承。继承的本质是子类继承父类，而不是父类的对象。所以非同包子类只能直接访问在方法区的成员（super方法访问，static可以访问），
+而子类创建的父类对象不能访问。
+所以，父类和子类在同一包中，子类可以访问父类的protected成员，也可以访问父类对象的protected成员（同包就可以）。
+父类和子类不在同一包中，子类可以访问父类的protected成员（继承），但是不可以访问父类对象的protected成员。
+这段为自己理解，不知道正确与否。
+ */
+```
+
+### 封装细节
+#### javabean
+```java
+package com.zong.encapsulation;
+
+public class Person {
+    private String name;
+    private  int age;
+    private boolean flag;
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+}
+```
+## 多态
 
