@@ -567,4 +567,47 @@ public class Person {
 }
 ```
 ## 多态
+多态指的是同一个方法调用，由于对象不同可能会有不同的行为。
+1. 多态是方法的多态。
+2. 继承，方法重写，父类引用指向子类对象。
+3. 父类引用调用子类重写的方法。
 
+```java
+package com.zong.polymorphism;
+
+public class Animal {
+    public void shout(){
+        System.out.println("叫了一声");
+    }
+}
+class Dog extends Animal{
+    @Override
+    public void shout() {
+        System.out.println("汪汪汪");
+    }
+}
+class Cat extends Animal{
+    @Override
+    public void shout() {
+        System.out.println("喵喵喵");
+    }
+}
+
+
+package com.zong.polymorphism;
+
+public class Test01 {
+    static void animalCry(Animal animal){
+        animal.shout();  //多态
+    }
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        animalCry(dog);
+        animalCry(new Cat());
+    }
+}
+```
+子类重写了父类的方法，为了降低程序耦合性，在animalCry使用多态性，即使之后Animal产生新类，也重写了shout方法。但是在使用时依旧可以用animalCry方法。完成调用。  
+
+
+## 对象的转型
