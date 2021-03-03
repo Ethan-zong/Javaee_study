@@ -610,4 +610,29 @@ public class Test01 {
 子类重写了父类的方法，为了降低程序耦合性，在animalCry使用多态性，即使之后Animal产生新类，也重写了shout方法。但是在使用时依旧可以用animalCry方法。完成调用。  
 
 
-## 对象的转型
+### 对象的转型
+```java
+package com.zong.polymorphism;
+
+public class Test01 {
+    static void animalCry(Animal animal){
+        animal.shout();  //多态
+    }
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        animalCry(dog);  //根据传入不同的Animal的子类对象，调用不同的方法。
+        animalCry(new Cat());
+        Animal a = new Dog();  //向上转型，父类引用调用子类对象
+//        a.seeDoor();  // 不能使用，因为a向上转型为Animal类
+        a.shout();  // 汪汪汪  父类类型的引用
+        //Cat c1 = (Cat) a;  //报错，dog和cat类是同级的
+        Dog d1 = (Dog) a;
+        d1.seeDoor();
+    }
+}
+
+//引用可以用指针理解
+```
+
+# 抽象类和接口
+
