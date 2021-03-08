@@ -637,5 +637,110 @@ public class Test01 {
 # 抽象类和接口
 
 ## 抽象方法
+使用abstract修饰的方法，没有方法体，只有声明。 
+
+## 抽象类
+1. 有抽象方法的类只能定义成抽象类。
+2. 抽象类不能实例化。 
+3. 抽象类可以包含属性，方法，构造方法。
+4. 抽象类只能被继承。 
+5. 抽象方法必须被子类实现。（重写）
+```java
+package com.zong.abstractClass;
+
+public abstract class Student {
+    private int id;
+    private String name;
+
+    public abstract void study();
+
+    public int getId() {  //可以正常声明方法
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
 
 
+
+package com.zong.abstractClass;
+
+
+
+public class Test {
+    public static void main(String[] args) {
+        Student s2 = new College();
+        s2.study();
+    }
+}
+class College extends Student{
+    public void study(){
+        System.out.println("library");  //必须实现
+    }
+}
+
+```
+
+## 接口 interface
+
+接口是一个规范。  
+接口的成员默认为 public static final类型，方法默认为 public abstract 类型的。
+```java
+interface Volant{
+    //接口可以继承多个接口
+    int FLY_HEIGHT = 100;  //常量
+    void fly();  // 抽象方法 只能定义这两个
+}
+```
+接口需要类实现。
+```java
+Class Angel implements Volant{
+    //用类来实现接口,一个类可以实现多个接口（类似多继承，但是java中不能多继承）。
+    public void fly(){
+        System.out.println("我是天使，可以飞");
+    }
+}
+```
+## JDK8以后可以定义的静态方法和默认方法
+
+### 默认方法（扩展方法）
+```java
+default void moren(){
+    System.out.println("接口A的默认方法")
+    // 必须加defult关键字，其他和父类相似，可以被实现的类重写，也可以不重写。
+}
+```
+### 静态方法
+可以在接口中直接定义静态方法。接口也是一种类。通过接口名调用。
+```java
+package com.zong.abstractClass;
+
+public class Test_interface {
+    public static void main(String[] args) {
+        A.staticMethod();  //静态方法通过类名直接调用
+        Test_A.staticMethod();
+    }
+}
+interface A{
+    public static void staticMethod(){
+        //和类的静态方法一样
+        System.out.println("A.staticMethod");
+    }
+}
+class Test_A implements A{
+    public static void staticMethod(){
+        //重写
+        System.out.println("Test_A.staticMethod");
+    }
+}
+```
